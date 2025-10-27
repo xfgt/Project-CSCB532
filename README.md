@@ -10,3 +10,4 @@ oshte edna promqna ot Tedi XD
 CONFLICT TUC TUC
 RAZRESHIHME!
 xD xD xD
+йцукен
