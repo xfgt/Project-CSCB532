@@ -13,6 +13,5 @@ xD xD xD
 CONFLICT TUC TUC
 xD xD xD
 RAZRESHIHME!
-
-
-napravo se opletohme
+xD xD xD
+йцукен
