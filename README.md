@@ -7,4 +7,5 @@ asdf
 promqna ot Vanka 
 #promqna ot Tedi :-D
 oshte edna promqna ot Tedi XD
+CONFLICT TUC TUC
 xD xD xD
