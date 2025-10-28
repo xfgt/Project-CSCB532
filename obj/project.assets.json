@@ -1,36 +1,44 @@
 {
   "version": 3,
   "targets": {
-    "net9.0": {}
+    "net8.0": {}
   },
   "libraries": {},
   "projectFileDependencyGroups": {
-    "net9.0": []
+    "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Martinkata\\.nuget\\packages\\": {}
+    "C:\\Users\\LOCAL_ADMIN\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Martinkata\\Desktop\\Project-CSCB532\\Project-CSCB532.csproj",
+      "projectUniqueName": "C:\\Users\\LOCAL_ADMIN\\source\\repos\\xfgt\\Project-CSCB532\\Project-CSCB532.csproj",
       "projectName": "Project-CSCB532",
-      "projectPath": "C:\\Users\\Martinkata\\Desktop\\Project-CSCB532\\Project-CSCB532.csproj",
-      "packagesPath": "C:\\Users\\Martinkata\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Martinkata\\Desktop\\Project-CSCB532\\obj\\",
+      "projectPath": "C:\\Users\\LOCAL_ADMIN\\source\\repos\\xfgt\\Project-CSCB532\\Project-CSCB532.csproj",
+      "packagesPath": "C:\\Users\\LOCAL_ADMIN\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\LOCAL_ADMIN\\source\\repos\\xfgt\\Project-CSCB532\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Martinkata\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\LOCAL_ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net9.0"
+        "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net9.0": {
-          "targetAlias": "net9.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "projectReferences": {}
         }
       },
@@ -47,8 +55,8 @@
       "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
-      "net9.0": {
-        "targetAlias": "net9.0",
+      "net8.0": {
+        "targetAlias": "net8.0",
         "imports": [
           "net461",
           "net462",
@@ -61,6 +69,9 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
