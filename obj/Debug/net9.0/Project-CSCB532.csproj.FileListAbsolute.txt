@@ -1,5 +1,0 @@
-C:\Users\Martinkata\Desktop\Project-CSCB532\obj\Debug\net9.0\Project-CSCB532.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Martinkata\Desktop\Project-CSCB532\obj\Debug\net9.0\Project-CSCB532.AssemblyInfoInputs.cache
-C:\Users\Martinkata\Desktop\Project-CSCB532\obj\Debug\net9.0\Project-CSCB532.AssemblyInfo.cs
-C:\Users\Martinkata\Desktop\Project-CSCB532\obj\Debug\net9.0\Project-CSCB532.csproj.CoreCompileInputs.cache
-C:\Users\Martinkata\Desktop\Project-CSCB532\obj\Debug\net9.0\Project-CSCB532.sourcelink.json
