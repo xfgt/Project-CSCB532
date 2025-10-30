@@ -41,14 +41,14 @@ public class LeasingModel : PageModel
         //double processingFee = Price * (FeePercent / 100);
         double processingFee;
 
-if (FeeType == "fixed")
-{
-    processingFee = FeeValue; // фиксирана сума в лева
-}
-else
-{
-    processingFee = Price * (FeeValue / 100.0); // процент
-}
+        if (FeeType == "fixed")
+        {
+            processingFee = FeeValue; // фиксирана сума в лева
+        }
+        else
+        {
+            processingFee = Price * (FeeValue / 100.0); // процент
+        }
 
 
         
