@@ -7,7 +7,7 @@ public class CreditModel : PageModel
     [BindProperty] public int Months { get; set; }
     [BindProperty] public double InterestRate { get; set; }
     [BindProperty] public string PaymentType { get; set; } = "annuity";
-
+//TODO ADD MISSING THINGS
     [BindProperty] public int PromoMonths { get; set; }
     [BindProperty] public double PromoRate { get; set; }
     [BindProperty] public int GraceMonths { get; set; }
