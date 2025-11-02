@@ -6,15 +6,28 @@
 
 <h2>Лизингов калкулатор</h2>
 
-<form method="post">
-    <label>Цена на стоката с ДДС:</label>
-    <input asp-for="Price" type="number" step="0.01" required />
+    <form method="post">
+        <label>Цена на стоката с ДДС:</label>
+        <input asp-for="Price" type="number" step="0.01" required />
 
-    <label>Срок на лизинга (месеци):</label>
-    <input asp-for="Months" type="number" required />
+        <label>Срок на лизинга (месеци):</label>
+        <input asp-for="Months" type="number" required />
 
-    <label>Първоначална такса за обработка (%):</label>
-    <input asp-for="FeePercent" type="number" step="0.01" required />
+        <div style="margin-bottom: 10px;">
+        <label for="FeeValue">Първоначална такса за обработка:</label><br />
+
+        <div style="display: flex; align-items: center; gap: 5px;">
+            <input id="FeeValue" name="FeeValue" type="number" step="0.01" min="0"
+                value="@Model.FeeValue"
+                style="width: 150px; text-align: right; padding: 5px;" />
+
+            <select id="FeeType" name="FeeType" style="width: 65px; padding: 5px; text-align: center;">
+                <option value="percent" selected>%</option>
+                <option value="fixed">лв</option>
+            </select>
+        </div>
+    </div>
+
 
     <label>Първоначална вноска:</label>
     <input asp-for="DownPayment" type="number" step="0.01" required />
@@ -24,6 +37,18 @@
 
     <button type="submit">Изчисли</button>
 </form>
+@section Scripts {
+    <script>
+        document.getElementById('FeeType').addEventListener('change', function () {
+            const input = document.getElementById('FeeValue');
+            if (this.value === 'percent') {
+                input.placeholder = 'Процент';
+            } else {
+                input.placeholder = 'Лева';
+            }
+        });
+    </script>
+}
 
 @if (Model.ShowResults)
 {
