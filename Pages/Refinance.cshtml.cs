@@ -64,17 +64,21 @@ public void OnPost()
         - OldPayment * (Math.Pow(1 + oldMonthlyRate, PaymentsMade) - 1) / oldMonthlyRate;
     //RemainingPrincipal = 212 965,48;
     //Разликата трябва да е 53241,6
-    Console.WriteLine(OldPayment);
-    Console.WriteLine(CurrentAmount);
-    Console.WriteLine(CurrentAmount * Math.Pow(1 + oldMonthlyRate, PaymentsMade));
-    Console.WriteLine(OldPayment * (Math.Pow(1 + oldMonthlyRate, PaymentsMade) - 1) / oldMonthlyRate);
-    Console.WriteLine(RemainingPrincipal);
+    //1109.2 * 240 = 266,208
+    //1109.2 * 48 = 53,241.6
+    //266,208 - 53,241.6 = 212,966.4
+    //Console.WriteLine(OldPayment);
+    //Console.WriteLine(CurrentAmount);
+    //Console.WriteLine(CurrentAmount * Math.Pow(1 + oldMonthlyRate, PaymentsMade));
+    //Console.WriteLine(OldPayment * (Math.Pow(1 + oldMonthlyRate, PaymentsMade) - 1) / oldMonthlyRate);
+    //Console.WriteLine(RemainingPrincipal);
     // Такса за предсрочно погасяване
     EarlyFeeValue = RemainingPrincipal * EarlyFee / 100;
 
     // Общо дължимо по стария кредит оттук нататък
-    OldTotalCost = RemainingPrincipal + EarlyFeeValue;
-
+    OldTotalCost = ((OldPayment * CurrentMonths) + EarlyFeeValue) - (OldPayment * PaymentsMade);
+   // OldTotalCost = RemainingPrincipal + EarlyFeeValue;
+    Console.WriteLine(OldTotalCost);
     //Нов срок (ако рефинансираш оставащите месеци)
     int newMonths = CurrentMonths - PaymentsMade;
 
@@ -87,8 +91,10 @@ public void OnPost()
     // Общо дължимо по новия кредит (всички вноски + такси)
     NewTotalCost = NewPayment * newMonths + NewFeeTotal;
 
+    
     //Разлика (спестяване)
     Saving = OldTotalCost - NewTotalCost;
+
 
     ShowResults = true;
 }
