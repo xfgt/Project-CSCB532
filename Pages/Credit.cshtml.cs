@@ -1,6 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+public class FeeItem
+{
+    public double Value { get; set; }
+    public string Type { get; set; } = "fixed"; // "percent" or "fixed"
+}
+
 public class CreditModel : PageModel
 {
     [BindProperty] public double Amount { get; set; }
@@ -11,25 +17,40 @@ public class CreditModel : PageModel
     [BindProperty] public int PromoMonths { get; set; }
     [BindProperty] public double PromoRate { get; set; }
     [BindProperty] public int GraceMonths { get; set; }
-    [BindProperty] public double Fees { get; set; }
 
-    public bool ShowResults { get; set; } = false;
+    
+    [BindProperty] public FeeItem ApplicationFee { get; set; } = new();
+    [BindProperty] public FeeItem ProcessingFee { get; set; } = new();
+    [BindProperty] public FeeItem OtherInitialFee { get; set; } = new();
+
+    [BindProperty] public FeeItem AnnualFee { get; set; } = new();
+    [BindProperty] public FeeItem OtherAnnualFee { get; set; } = new();
+
+    [BindProperty] public FeeItem MonthlyManagementFee { get; set; } = new();
+    [BindProperty] public FeeItem OtherMonthlyFee { get; set; } = new();
+
+    public bool ShowResults { get; set; }
     public double MonthlyPayment { get; set; }
     public double TotalPaid { get; set; }
     public double TotalInterest { get; set; }
 
     public void OnPost()
     {
-        double effectiveRate = InterestRate / 100 / 12;
-        double promoRateMonthly = PromoRate / 100 / 12;
-
+        double effectiveRate = InterestRate / 100.0 / 12.0;
+        double promoRateMonthly = PromoRate / 100.0 / 12.0;
         int mainPeriod = Months - PromoMonths - GraceMonths;
         if (mainPeriod < 0) mainPeriod = 0;
+
+        
+        double allFees = CalculateFee(ApplicationFee)
+                        + CalculateFee(ProcessingFee)
+                        + CalculateFee(OtherInitialFee)
+                        + (CalculateFee(AnnualFee) + CalculateFee(OtherAnnualFee)) * (Months / 12.0)
+                        + (CalculateFee(MonthlyManagementFee) + CalculateFee(OtherMonthlyFee)) * Months;
 
         double promoPayment = 0;
         double normalPayment = 0;
 
-        // Анюитетни вноски
         if (PaymentType == "annuity")
         {
             if (PromoMonths > 0 && PromoRate > 0)
@@ -39,27 +60,31 @@ public class CreditModel : PageModel
                 normalPayment = Amount * effectiveRate / (1 - Math.Pow(1 + effectiveRate, -mainPeriod));
 
             MonthlyPayment = normalPayment;
-            TotalPaid = promoPayment * PromoMonths + normalPayment * mainPeriod + Fees;
+            TotalPaid = promoPayment * PromoMonths + normalPayment * mainPeriod + allFees;
         }
-        else // Намаляващи вноски
+        else
         {
             double remaining = Amount;
             double total = 0;
-
             for (int i = 0; i < Months; i++)
             {
-                double monthlyRate = (i < PromoMonths) ? promoRateMonthly : effectiveRate;
+                double rate = (i < PromoMonths) ? promoRateMonthly : effectiveRate;
                 double principal = Amount / Months;
-                double interest = remaining * monthlyRate;
+                double interest = remaining * rate;
                 total += principal + interest;
                 remaining -= principal;
             }
 
             MonthlyPayment = Amount / Months + (Amount * effectiveRate);
-            TotalPaid = total + Fees;
+            TotalPaid = total + allFees;
         }
 
         TotalInterest = TotalPaid - Amount;
         ShowResults = true;
+    }
+
+    private double CalculateFee(FeeItem fee)
+    {
+        return fee.Type == "percent" ? Amount * (fee.Value / 100.0) : fee.Value;
     }
 }
