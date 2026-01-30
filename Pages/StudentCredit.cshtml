@@ -1,0 +1,51 @@
+@page
+@model StudentCreditModel
+@{
+    ViewData["Title"] = "Калкулатор за студентски кредит";
+}
+
+<h2>Калкулатор за студентски кредит</h2>
+<p>Пресметнете месечната вноска и общо изплатената сума</p>
+
+<form method="post" class="student-form">
+    <div class="grid">
+        <div>
+            <label>Размер на кредита (лв.) *</label>
+            <input asp-for="Amount" type="number" step="0.01" required />
+        </div>
+        <div>
+            <label>Годишна лихва (%) *</label>
+            <input asp-for="Rate" type="number" step="0.01" required />
+        </div>
+        <div>
+            <label>Срок (месеци) *</label>
+            <input asp-for="Months" type="number" required />
+        </div>
+        <div>
+            <label>Гратисен период (месеци)</label>
+            <input asp-for="GraceMonths" type="number" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn">ИЗЧИСЛИ</button>
+    <p class="note">* задължителни полета</p>
+</form>
+
+@if (Model.ShowResults)
+{
+    <h3>Резултати</h3>
+    <table class="results">
+        <tr>
+            <td>Месечна вноска</td>
+            <td>@Model.MonthlyPayment.ToString("F2") лв.</td>
+        </tr>
+        <tr>
+            <td>Общо изплатена сума</td>
+            <td>@Model.TotalPaid.ToString("F2") лв.</td>
+        </tr>
+        <tr>
+            <td>Общо лихви</td>
+            <td>@Model.TotalInterest.ToString("F2") лв.</td>
+        </tr>
+    </table>
+}
