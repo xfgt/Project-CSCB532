@@ -59,10 +59,31 @@ public class LeasingModel : PageModel
         double totalInterestAndFees = TotalPaid - loanAmount;
         double years = Months / 12.0;
 
+        
+
         // APR formula
         // TODO: Need asking for APR how to work properly
-        APR = (totalInterestAndFees / loanAmount) / years * 100;
-        
+        //APR = (totalInterestAndFees / loanAmount) / years * 100;
+        //APR = (((TotalFees+ totalInterestAndFees)/Price)  / (Months *12)) / 100;
+        double low = 0.0;
+        double high = 1.0; // 100% monthly (very high)
+        double mid = 0.0;
+
+        for (int i = 0; i < 100; i++)
+        {
+            mid = (low + high) / 2.0;
+            double guessPayment = (loanAmount * mid) / (1 - Math.Pow(1 + mid, -Months));
+
+            if (guessPayment > MonthlyPaymentInput)
+                high = mid;
+            else
+                low = mid;
+        }
+
+        double monthlyRate = mid;
+        APR = (Math.Pow(1 + monthlyRate, 12) - 1) * 100;
+        double result = Math.Round(APR, 2);
+        Console.WriteLine(result);
         ShowResults = true;
 
     }

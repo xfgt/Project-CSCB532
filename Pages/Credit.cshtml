@@ -7,42 +7,107 @@
 <h2>Кредитен калкулатор</h2>
 
 <form method="post">
-    <label>Размер на кредита:</label>
+    <label>Сума на кредита (лв):</label>
     <input asp-for="Amount" type="number" step="0.01" required />
 
     <label>Срок (месеци):</label>
     <input asp-for="Months" type="number" required />
 
-    <label>Лихва (%):</label>
+    <label>Лихвен процент (% годишно):</label>
     <input asp-for="InterestRate" type="number" step="0.01" required />
 
-    <label>Тип вноски:</label>
+    <label>Тип плащане:</label>
     <select asp-for="PaymentType">
-        <option value="annuity">Анюитетни</option>
-        <option value="decreasing">Намаляващи</option>
+        <option value="annuity">Анюитетен</option>
+        <option value="linear">Линеен</option>
     </select>
 
-    <h3>Промоционални условия (по избор):</h3>
-
-    <label>Промоционален период (месеци):</label>
-    <input asp-for="PromoMonths" type="number" />
-
-    <label>Промоционална лихва (%):</label>
+    <label>Промо месечен лихвен процент (%):</label>
     <input asp-for="PromoRate" type="number" step="0.01" />
+
+    <label>Промо период (месеци):</label>
+    <input asp-for="PromoMonths" type="number" />
 
     <label>Гратисен период (месеци):</label>
     <input asp-for="GraceMonths" type="number" />
 
-    <label>Такси (лв):</label>
-    <input asp-for="Fees" type="number" step="0.01" />
+    <h3>Еднократни такси</h3>
 
+    <div style="display:flex;align-items:center;gap:5px;">
+        <label style="width:250px;">Такса кандидатстване:</label>
+        <input asp-for="ApplicationFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <select asp-for="ApplicationFee.Type" style="width:70px;text-align:center;">
+            <option value="fixed">лв</option>
+            <option value="percent">%</option>
+        </select>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:5px;">
+        <label style="width:250px;">Такса обработка:</label>
+        <input asp-for="ProcessingFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <select asp-for="ProcessingFee.Type" style="width:70px;text-align:center;">
+            <option value="fixed">лв</option>
+            <option value="percent">%</option>
+        </select>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:5px;">
+        <label style="width:250px;">Други първоначални такси:</label>
+        <input asp-for="OtherInitialFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <select asp-for="OtherInitialFee.Type" style="width:70px;text-align:center;">
+            <option value="fixed">лв</option>
+            <option value="percent">%</option>
+        </select>
+    </div>
+
+    <h3>Годишни такси</h3>
+
+    <div style="display:flex;align-items:center;gap:5px;">
+        <label style="width:250px;">Годишна такса управление:</label>
+        <input asp-for="AnnualFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <select asp-for="AnnualFee.Type" style="width:70px;text-align:center;">
+            <option value="fixed">лв</option>
+            <option value="percent">%</option>
+        </select>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:5px;">
+        <label style="width:250px;">Други годишни такси:</label>
+        <input asp-for="OtherAnnualFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <select asp-for="OtherAnnualFee.Type" style="width:70px;text-align:center;">
+            <option value="fixed">лв</option>
+            <option value="percent">%</option>
+        </select>
+    </div>
+
+    <h3>Месечни такси</h3>
+
+    <div style="display:flex;align-items:center;gap:5px;">
+        <label style="width:250px;">Месечна такса управление:</label>
+        <input asp-for="MonthlyManagementFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <select asp-for="MonthlyManagementFee.Type" style="width:70px;text-align:center;">
+            <option value="fixed">лв</option>
+            <option value="percent">%</option>
+        </select>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:5px;">
+        <label style="width:250px;">Други месечни такси:</label>
+        <input asp-for="OtherMonthlyFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <select asp-for="OtherMonthlyFee.Type" style="width:70px;text-align:center;">
+            <option value="fixed">лв</option>
+            <option value="percent">%</option>
+        </select>
+    </div>
+
+    <br />
     <button type="submit">Изчисли</button>
 </form>
 
 @if (Model.ShowResults)
 {
-    <h3>Резултати:</h3>
+    <h3>Резултати</h3>
     <p>Месечна вноска: @Model.MonthlyPayment.ToString("F2") лв.</p>
-    <p>Общо изплатена сума: @Model.TotalPaid.ToString("F2") лв.</p>
-    <p>Общо лихви и такси: @Model.TotalInterest.ToString("F2") лв.</p>
+    <p>Общо изплатено: @Model.TotalPaid.ToString("F2") лв.</p>
+    <p>Общо лихви: @Model.TotalInterest.ToString("F2") лв.</p>
 }

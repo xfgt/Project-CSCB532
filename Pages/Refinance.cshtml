@@ -56,9 +56,62 @@
 @if (Model.ShowResults)
 {
     <h3>Резултати</h3>
-    <p>Оставаща главница: @Model.RemainingPrincipal.ToString("F2") лв.</p>
-    <p>Разход по стария кредит: @Model.OldTotalCost.ToString("F2") лв.</p>
-    <p>Разход по новия кредит: @Model.NewTotalCost.ToString("F2") лв.</p>
-    <p><b>Разлика (спестяване): @Model.Saving.ToString("F2") лв.</b></p>
+    <table class="results">
+        <thead>
+            <tr>
+                <th>Резултат</th>
+                <th>Текущ кредит</th>
+                <th>Нов кредит</th>
+                <th>+/- Спестявания</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Лихва</td>
+                <td>@Model.CurrentRate %</td>
+                <td>@Model.NewRate %</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Срокове на кредитите (месеци)</td>
+                <td>@Model.CurrentMonths</td>
+                <td>@Model.CurrentMonths</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Такси</td>
+                <td>@Model.EarlyFeeValue.ToString("F2") лв.</td>
+                <td>@Model.NewFeeTotal.ToString("F2") лв.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Месечна вноска</td>
+                <td>@Model.OldPayment.ToString("F2") лв.</td>
+                <td>@Model.NewPayment.ToString("F2") лв.</td>
+                <td>@(Model.NewPayment - Model.OldPayment).ToString("F2")</td>
+            </tr>
+            <tr>
+                <td>Общо изплатени</td>
+                <td>@Model.OldTotalCost.ToString("F2") лв.</td>
+                <td>@Model.NewTotalCost.ToString("F2") лв.</td>
+                <td>@Model.Saving.ToString("F2")</td>
+            </tr>
+        </tbody>
+    </table>
+
+    @if (Model.Saving > 0)
+    {
+        <div class="success">
+             Рефинансирането е изгодно. Очакваната икономия е @Model.Saving.ToString("F2") лв.
+        </div>
+    }
+    else
+    {
+        <div class="error">
+             Въведените параметри показват, че избраната оферта за нов кредит не е изгодна.
+            Цената на рефинансирането е по-висока от очакваната икономия.
+        </div>
+    }
 }
+
 
