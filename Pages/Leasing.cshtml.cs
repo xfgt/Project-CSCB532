@@ -12,7 +12,7 @@ public class LeasingModel : PageModel
     /// Processing fee percentage
     [BindProperty] public double FeePercent { get; set; }
     [BindProperty] public string FeeType { get; set; } = "0"; // "percent" или "fixed"
-[BindProperty] public double FeeValue { get; set; } // Въведената стойност
+    [BindProperty] public double FeeValue { get; set; } // Въведената стойност
     /// Down payment amount
     [BindProperty] public double DownPayment { get; set; }
     /// Monthly payment
