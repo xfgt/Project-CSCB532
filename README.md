@@ -27,6 +27,29 @@ http://www.moitepari.bg/kalkulatori/Lizingov_kalkulator.aspx
 средата .NET – ASP.NET проект, създаден с Net.Core 2.1 Да се използват HTML5 и CSS3
 
 
-### Бележки
+### Инсталация и компилиране
 
-// requirements, how to run, etc
+
+1. Powershell.exe (run as admin)
+
+   `winget install Microsoft.DotNet.SDK.8`
+
+2. restart powershell (run as admin) && check for version
+
+   `dotnet --version`
+
+3. get repo
+
+   `git clone https://github.com/xfgt/Project-CSCB532.git`
+   
+   `cd Project-CSCB532\`
+
+4. compile and run
+
+   `dotnet run`
+
+
+5. Go to `http://localhost:5191` or other if different
+    
+
+
