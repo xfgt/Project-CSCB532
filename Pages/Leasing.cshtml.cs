@@ -62,7 +62,6 @@ public class LeasingModel : PageModel
         
 
         // APR formula
-        // TODO: Need asking for APR how to work properly
         //APR = (totalInterestAndFees / loanAmount) / years * 100;
         //APR = (((TotalFees+ totalInterestAndFees)/Price)  / (Months *12)) / 100;
         double low = 0.0;

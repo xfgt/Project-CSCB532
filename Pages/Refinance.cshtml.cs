@@ -4,24 +4,40 @@ using System;
 
 public class RefinanceModel : PageModel
 {
+    // current loan
     [BindProperty] public double CurrentAmount { get; set; }
+    // current rate
     [BindProperty] public double CurrentRate { get; set; }
+    // current months
     [BindProperty] public int CurrentMonths { get; set; }
+    // payments made
     [BindProperty] public int PaymentsMade { get; set; }
+    // early fee
     [BindProperty] public double EarlyFee { get; set; }
 
+    // new loan, so new rate
     [BindProperty] public double NewRate { get; set; }
-    [BindProperty] public double NewFeePercent { get; set; }//proveri za kakwo sa
-    [BindProperty] public double NewFeeFixed { get; set; }//TODO
+    // new fee percent
+    [BindProperty] public double NewFeePercent { get; set; }
+    // new fee fixed
+    [BindProperty] public double NewFeeFixed { get; set; }
 
+    //showing result
     public bool ShowResults { get; set; }
+    // remaining principal
     public double RemainingPrincipal { get; set; }
+    // early fee
     public double EarlyFeeValue { get; set; }
+    // old payment
     public double OldPayment { get; set; }
+    // new payment
     public double NewPayment { get; set; }
+    //old total cost like total old payments
     public double OldTotalCost { get; set; }
+    // new total cost and also fee
     public double NewFeeTotal { get; set; }
     public double NewTotalCost { get; set; }
+    //any saving
     public double Saving { get; set; }
 
     /*public void OnPost()
