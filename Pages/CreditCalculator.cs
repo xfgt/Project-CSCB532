@@ -36,6 +36,15 @@ public class CreditCalculator
         // then bankrupt the bank
         if (mainPeriod < 0) mainPeriod = 0;
 
+        double graceTotal = 0;
+
+        for (int i = 0; i < graceMonths; i++)
+        {
+            // if there is a grace
+            graceTotal += amount * effectiveRate;
+        }
+         
+
         //counting all fees
         double allFees =
             CalculateFee(amount, applicationFee) +
@@ -92,6 +101,9 @@ public class CreditCalculator
             monthlyPayment = amount / months + (amount * effectiveRate);
             totalPaid = total + allFees;
         }
+        
+        totalPaid += graceTotal;
+
         //total interest
         //TotalInterest = TotalPaid - Amount; 
         return (monthlyPayment, totalPaid, totalPaid - amount);
