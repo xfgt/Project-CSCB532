@@ -143,11 +143,49 @@ public class CreditModel : PageModel
             OtherMonthlyFee
         );
 
+<<<<<<< HEAD
         MonthlyPayment = result.monthly;
         TotalPaid = result.totalPaid;
         TotalInterest = result.totalInterest;
         //show results
         ShowResults = true;        
+=======
+        double promoPayment = 0;
+        double normalPayment = 0;
+
+        
+
+        if (PaymentType == "annuity")
+        {
+            if (PromoMonths > 0 && PromoRate > 0)
+                promoPayment = Amount * promoRateMonthly / (1 - Math.Pow(1 + promoRateMonthly, -PromoMonths));
+
+            if (mainPeriod > 0)
+                normalPayment = Amount * effectiveRate / (1 - Math.Pow(1 + effectiveRate, -mainPeriod));
+
+            MonthlyPayment = normalPayment;
+            TotalPaid = promoPayment * PromoMonths + normalPayment * mainPeriod + allFees;
+        }
+        else
+        {
+            double remaining = Amount;
+            double total = 0;
+            for (int i = 0; i < Months; i++)
+            {
+                double rate = (i < PromoMonths) ? promoRateMonthly : effectiveRate;
+                double principal = Amount / Months;
+                double interest = remaining * rate;
+                total += principal + interest;
+                remaining -= principal;
+            }
+
+            MonthlyPayment = Amount / Months + (Amount * effectiveRate);
+            TotalPaid = total + allFees;
+        }
+
+        TotalInterest = TotalPaid - Amount;
+        ShowResults = true;
+>>>>>>> main
     }
 
     // // calculate fee
