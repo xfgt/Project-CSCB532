@@ -88,7 +88,7 @@
                 <td>Месечна вноска</td>
                 <td>@Model.OldPayment.ToString("F2") лв.</td>
                 <td>@Model.NewPayment.ToString("F2") лв.</td>
-                <td>@(Model.NewPayment - Model.OldPayment).ToString("F2")</td>
+                <td>@String.Format("{0:0.##}", (Model.NewPayment - Model.OldPayment) * -1)</td>
             </tr>
             <tr>
                 <td>Общо изплатени</td>
