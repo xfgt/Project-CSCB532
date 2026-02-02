@@ -25,11 +25,8 @@
     </select>
 
     <label>Промо процент:</label>
-<<<<<<< HEAD
     <input asp-for="PromoRate" id="promoRate" type="number" step="0.01" min="0"/>
-=======
-    <input asp-for="PromoRate" id="promoRate" type="number" step="0.01" min="0" />
->>>>>>> main
+
     <div id="promoError" style="color:red; display:none;">
         Промо лихвата трябва да е по-малка от основната лихва
     </div>
@@ -38,11 +35,7 @@
     <input asp-for="PromoMonths" id="promoMonths" type="number" step="1" min="0" />
 
     <label>Гратисен период (месеци):</label>
-<<<<<<< HEAD
     <input asp-for="GraceMonths" type="number" id="graceMonths"  step="1" min="0"/>
-=======
-    <input asp-for="GraceMonths" type="number" id="graceMonths" step="1" min="0" />
->>>>>>> main
 
     <h3>Еднократни такси</h3>
 
@@ -125,7 +118,6 @@
     <p>Общо лихви: @Model.TotalInterest.ToString("F2") лв.</p>
 }
 <script>
-<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", function () {
     const interest = document.getElementById("interestRate");
     const promo = document.getElementById("promoRate");
@@ -154,8 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-</script>
-<script>
 document.addEventListener("DOMContentLoaded", function () {
 
     const form = document.querySelector("form");
@@ -197,77 +187,46 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
-=======
-    document.addEventListener("DOMContentLoaded", function () {
-        const interest = document.getElementById("interestRate");
-        const promo = document.getElementById("promoRate");
-        const error = document.getElementById("promoError");
-        const form = document.querySelector("form");
 
-        function validateRates() {
-            const i = parseFloat(interest.value);
-            const p = parseFloat(promo.value);
+document.addEventListener("DOMContentLoaded", function () {
 
-            if (!isNaN(i) && !isNaN(p) && p >= i) {
-                error.style.display = "block";
+    const form = document.querySelector("form");
+
+    const integerFields = [
+        "amount",
+        "months",
+        "promoMonths",
+        "graceMonths"
+    ];
+
+    function validateIntegers() {
+        for (const id of integerFields) {
+            const el = document.getElementById(id);
+            if (!el || el.value === "") continue;
+
+            const value = Number(el.value);
+            const min = Number(el.min ?? 0);
+
+            if (!Number.isInteger(value)) {
+                alert("Полето трябва да е цяло число.");
+                el.focus();
                 return false;
-            } else {
-                error.style.display = "none";
-                return true;
+            }
+
+            if (value < min) {
+                alert(`Стойността не може да е по-малка от ${min}.`);
+                el.focus();
+                return false;
             }
         }
+        return true;
+    }
 
-        interest.addEventListener("input", validateRates);
-        promo.addEventListener("input", validateRates);
-
-        form.addEventListener("submit", function (e) {
-            if (!validateRates()) {
-                e.preventDefault();
-            }
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        const form = document.querySelector("form");
-
-        const integerFields = [
-            "amount",
-            "months",
-            "promoMonths",
-            "graceMonths"
-        ];
-
-        function validateIntegers() {
-            for (const id of integerFields) {
-                const el = document.getElementById(id);
-                if (!el || el.value === "") continue;
-
-                const value = Number(el.value);
-                const min = Number(el.min ?? 0);
-
-                if (!Number.isInteger(value)) {
-                    alert("Полето трябва да е цяло число.");
-                    el.focus();
-                    return false;
-                }
-
-                if (value < min) {
-                    alert(`Стойността не може да е по-малка от ${min}.`);
-                    el.focus();
-                    return false;
-                }
-            }
-            return true;
+    form.addEventListener("submit", function (e) {
+        if (!validateIntegers()) {
+            e.preventDefault();
         }
-
-        form.addEventListener("submit", function (e) {
-            if (!validateIntegers()) {
-                e.preventDefault();
-            }
-        });
-
     });
->>>>>>> main
+
+});
 </script>
