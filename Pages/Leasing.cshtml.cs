@@ -12,7 +12,7 @@ public class LeasingModel : PageModel
     /// Processing fee percentage
     [BindProperty] public double FeePercent { get; set; }
     [BindProperty] public string FeeType { get; set; } = "0"; // "percent" или "fixed"
-[BindProperty] public double FeeValue { get; set; } // Въведената стойност
+    [BindProperty] public double FeeValue { get; set; } // Въведената стойност
     /// Down payment amount
     [BindProperty] public double DownPayment { get; set; }
     /// Monthly payment
@@ -62,7 +62,6 @@ public class LeasingModel : PageModel
         
 
         // APR formula
-        // TODO: Need asking for APR how to work properly
         //APR = (totalInterestAndFees / loanAmount) / years * 100;
         //APR = (((TotalFees+ totalInterestAndFees)/Price)  / (Months *12)) / 100;
         double low = 0.0;
