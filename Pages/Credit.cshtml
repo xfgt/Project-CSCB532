@@ -7,14 +7,16 @@
 <h2>Кредитен калкулатор</h2>
 
 <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     <label>Сума на кредита (лв):</label>
-    <input asp-for="Amount" type="number" step="0.01" required />
+    <input asp-for="Amount" id="amount" type="number" step="1" min="1" required />
 
     <label>Срок (месеци):</label>
-    <input asp-for="Months" type="number" required />
+    <input asp-for="Months" id="months" type="number" step="1" min="1" required />
 
     <label>Лихвен процент (% годишно):</label>
-    <input asp-for="InterestRate" type="number" step="0.01" required />
+    <input asp-for="InterestRate" id="interestRate" type="number" step="0.01" min="0" required />
 
     <label>Тип плащане:</label>
     <select asp-for="PaymentType">
@@ -22,14 +24,17 @@
         <option value="linear">Линеен</option>
     </select>
 
-    <label>Промо месечен лихвен процент (%):</label>
-    <input asp-for="PromoRate" type="number" step="0.01" />
+    <label>Промо процент:</label>
+    <input asp-for="PromoRate" id="promoRate" type="number" step="0.01" min="0"/>
+    <div id="promoError" style="color:red; display:none;">
+        Промо лихвата трябва да е по-малка от основната лихва
+    </div>
 
     <label>Промо период (месеци):</label>
-    <input asp-for="PromoMonths" type="number" />
+    <input asp-for="PromoMonths" id="promoMonths" type="number" step="1" min="0" />
 
     <label>Гратисен период (месеци):</label>
-    <input asp-for="GraceMonths" type="number" />
+    <input asp-for="GraceMonths" type="number" id="graceMonths"  step="1" min="0"/>
 
     <h3>Еднократни такси</h3>
 
@@ -111,3 +116,76 @@
     <p>Общо изплатено: @Model.TotalPaid.ToString("F2") лв.</p>
     <p>Общо лихви: @Model.TotalInterest.ToString("F2") лв.</p>
 }
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const interest = document.getElementById("interestRate");
+    const promo = document.getElementById("promoRate");
+    const error = document.getElementById("promoError");
+    const form = document.querySelector("form");
+
+    function validateRates() {
+        const i = parseFloat(interest.value);
+        const p = parseFloat(promo.value);
+
+        if (!isNaN(i) && !isNaN(p) && p >= i) {
+            error.style.display = "block";
+            return false;
+        } else {
+            error.style.display = "none";
+            return true;
+        }
+    }
+
+    interest.addEventListener("input", validateRates);
+    promo.addEventListener("input", validateRates);
+
+    form.addEventListener("submit", function (e) {
+        if (!validateRates()) {
+            e.preventDefault(); 
+        }
+    });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.querySelector("form");
+
+    const integerFields = [
+        "amount",
+        "months",
+        "promoMonths",
+        "graceMonths"
+    ];
+
+    function validateIntegers() {
+        for (const id of integerFields) {
+            const el = document.getElementById(id);
+            if (!el || el.value === "") continue;
+
+            const value = Number(el.value);
+            const min = Number(el.min ?? 0);
+
+            if (!Number.isInteger(value)) {
+                alert("Полето трябва да е цяло число.");
+                el.focus();
+                return false;
+            }
+
+            if (value < min) {
+                alert(`Стойността не може да е по-малка от ${min}.`);
+                el.focus();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    form.addEventListener("submit", function (e) {
+        if (!validateIntegers()) {
+            e.preventDefault();
+        }
+    });
+
+});
+</script>

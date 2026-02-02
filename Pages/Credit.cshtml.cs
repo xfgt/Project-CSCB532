@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 public class FeeItem
 {
     public double Value { get; set; }
     public string Type { get; set; } = "fixed"; // "percent" or "fixed"
 }
+
 
 public class CreditModel : PageModel
 {
@@ -50,80 +52,107 @@ public class CreditModel : PageModel
     // how you paid upper the amount
     public double TotalInterest { get; set; }
 
-    public void OnPost()
-    {
-        // params
-        // loanAmount is the money needed to pay off the loan
-        // processingFee is the processing fee
-        // TotalFees is all the fees paid for the loan
-        // TotalPaid is all the money paid for the loan
+    // public void OnPost()
+    // {
+    //     // params
+    //     // loanAmount is the money needed to pay off the loan
+    //     // processingFee is the processing fee
+    //     // TotalFees is all the fees paid for the loan
+    //     // TotalPaid is all the money paid for the loan
 
-        // Effective rate for 1 month
-        double effectiveRate = InterestRate / 100.0 / 12.0;
-        // Promo rate for 1 month
-        double promoRateMonthly = PromoRate / 100.0 / 12.0;
-        // All months without promotions
-        int mainPeriod = Months - PromoMonths - GraceMonths;
-        // then bankrupt the bank
-        if (mainPeriod < 0) mainPeriod = 0;
+    //     // Effective rate for 1 month
+    //     double effectiveRate = InterestRate / 100.0 / 12.0;
+    //     // Promo rate for 1 month
+    //     double promoRateMonthly = PromoRate / 100.0 / 12.0;
+    //     // All months without promotions
+    //     int mainPeriod = Months - PromoMonths - GraceMonths;
+    //     // then bankrupt the bank
+    //     if (mainPeriod < 0) mainPeriod = 0;
 
-        //counting all fees
-        double allFees = CalculateFee(ApplicationFee)
-                        + CalculateFee(ProcessingFee)
-                        + CalculateFee(OtherInitialFee)
-                        + (CalculateFee(AnnualFee) + CalculateFee(OtherAnnualFee)) * (Months / 12.0)
-                        + (CalculateFee(MonthlyManagementFee) + CalculateFee(OtherMonthlyFee)) * Months;
-        // promoPayment and normalpayment from zero, just to avoid errors
-        double promoPayment = 0;
-        double normalPayment = 0;
+    //     //counting all fees
+    //     double allFees = CalculateFee(ApplicationFee)
+    //                     + CalculateFee(ProcessingFee)
+    //                     + CalculateFee(OtherInitialFee)
+    //                     + (CalculateFee(AnnualFee) + CalculateFee(OtherAnnualFee)) * (Months / 12.0)
+    //                     + (CalculateFee(MonthlyManagementFee) + CalculateFee(OtherMonthlyFee)) * Months;
+    //     // promoPayment and normalpayment from zero, just to avoid errors
+    //     double promoPayment = 0;
+    //     double normalPayment = 0;
 
-        //base annuity if it is
-        if (PaymentType == "annuity")
-        {
-            //if there is a promotion and also rate
-            if (PromoMonths > 0 && PromoRate > 0)
-                promoPayment = Amount * promoRateMonthly / (1 - Math.Pow(1 + promoRateMonthly, -PromoMonths));
-            // if there is no promotion
-            if (mainPeriod > 0)
-                normalPayment = Amount * effectiveRate / (1 - Math.Pow(1 + effectiveRate, -mainPeriod));
-            //if there is nor promotion, then it is monthly payment
-            MonthlyPayment = normalPayment;
-            //total paid
-            TotalPaid = promoPayment * PromoMonths + normalPayment * mainPeriod + allFees;
-        }
-        //if it is linear loan
-        else
-        {
-            // how much is left
-            double remaining = Amount;
-            // starting from zero to avoid errors
-            double total = 0;
-            //for each month
-            for (int i = 0; i < Months; i++)
-            {
-                // if there is a promotion
-                double rate = (i < PromoMonths) ? promoRateMonthly : effectiveRate;
-                // calculate the monthly payment without interest/fees
-                double principal = Amount / Months;
-                // calculate the interest
-                double interest = remaining * rate;
-                // add to total
-                total += principal + interest;
-                // subtract from remaining or removing partial of remaining
-                remaining -= principal;
-            }
-            // add fees and total
-            MonthlyPayment = Amount / Months + (Amount * effectiveRate);
-            TotalPaid = total + allFees;
-        }
-        //total interest
-        TotalInterest = TotalPaid - Amount;
+    //     //base annuity if it is
+    //     if (PaymentType == "annuity")
+    //     {
+    //         //if there is a promotion and also rate
+    //         if (PromoMonths > 0 && PromoRate > 0)
+    //             promoPayment = Amount * promoRateMonthly / (1 - Math.Pow(1 + promoRateMonthly, -PromoMonths));
+    //         // if there is no promotion
+    //         if (mainPeriod > 0)
+    //             normalPayment = Amount * effectiveRate / (1 - Math.Pow(1 + effectiveRate, -mainPeriod));
+    //         //if there is nor promotion, then it is monthly payment
+    //         MonthlyPayment = normalPayment;
+    //         //total paid
+    //         TotalPaid = promoPayment * PromoMonths + normalPayment * mainPeriod + allFees;
+    //     }
+    //     //if it is linear loan
+    //     else
+    //     {
+    //         // how much is left
+    //         double remaining = Amount;
+    //         // starting from zero to avoid errors
+    //         double total = 0;
+    //         //for each month
+    //         for (int i = 0; i < Months; i++)
+    //         {
+    //             // if there is a promotion
+    //             double rate = (i < PromoMonths) ? promoRateMonthly : effectiveRate;
+    //             // calculate the monthly payment without interest/fees
+    //             double principal = Amount / Months;
+    //             // calculate the interest
+    //             double interest = remaining * rate;
+    //             // add to total
+    //             total += principal + interest;
+    //             // subtract from remaining or removing partial of remaining
+    //             remaining -= principal;
+    //         }
+    //         // add fees and total
+    //         MonthlyPayment = Amount / Months + (Amount * effectiveRate);
+    //         TotalPaid = total + allFees;
+    //     }
+    //     //total interest
+    //     TotalInterest = TotalPaid - Amount;
+    //     //show results
+    //     ShowResults = true;
+    // }
+    
+    public void OnPost(){
+        
+        var result = CreditCalculator.Calculate(
+            Amount,
+            Months,
+            InterestRate,
+            PaymentType,
+            PromoMonths,
+            PromoRate,
+            GraceMonths,
+            ApplicationFee,
+            ProcessingFee,
+            OtherInitialFee,
+            AnnualFee,
+            OtherAnnualFee,
+            MonthlyManagementFee,
+            OtherMonthlyFee
+        );
+
+        MonthlyPayment = result.monthly;
+        TotalPaid = result.totalPaid;
+        TotalInterest = result.totalInterest;
         //show results
-        ShowResults = true;
+        ShowResults = true;        
     }
-    // calculate fee
-    private double CalculateFee(FeeItem fee)
-    {
-        return fee.Type == "percent" ? Amount * (fee.Value / 100.0) : fee.Value;
-    }
+
+    // // calculate fee
+    // private double CalculateFee(FeeItem fee)
+    // {
+    //     return fee.Type == "percent" ? Amount * (fee.Value / 100.0) : fee.Value;
+    // }
 }
