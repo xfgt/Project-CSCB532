@@ -51,6 +51,8 @@ public class CreditModel : PageModel
         double promoPayment = 0;
         double normalPayment = 0;
 
+        
+
         if (PaymentType == "annuity")
         {
             if (PromoMonths > 0 && PromoRate > 0)
