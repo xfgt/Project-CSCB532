@@ -1,86 +1,108 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap');
 
 body {
-  margin-bottom: 60px;
+    background-color: #fcf6e5 !important;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.navbar, header, .bg-white {
+    background-color: #1a3a5a !important;
+    border-bottom: 3px solid #004a75 !important;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.navbar-brand, .nav-link, .navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-family: 'Merriweather', serif;
 }
-/* Основни стилове за всички калкулатори */
 
-form.calculator-form {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 16px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+.calculator-form {
+    background: #ffffff;
+    padding: 30px;
+    border: 1px solid #dcd7bb;
+    border-radius: 4px;
+    margin-top: 20px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 25px;
 }
 
+    .grid > div {
+        display: flex;
+        flex-direction: column;
+    }
+
 label {
-    display: block;
-    margin-bottom: 0.3rem;
     font-weight: 600;
+    font-size: 0.85rem;
+    color: #1a3a5a;
+    text-transform: uppercase;
+    margin-bottom: 5px;
 }
 
 input, select {
-    width: 100%;
-    padding: 0.6rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
 }
 
-button.btn {
-    margin-top: 1rem;
-    background: #005a9e;
-    color: white;
-    padding: 0.7rem 1.5rem;
+button[type="submit"] {
+    background-color: #006096 !important;
+    color: white !important;
     border: none;
-    border-radius: 8px;
+    padding: 12px 40px;
+    border-radius: 50px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 1rem;
 }
 
-button.btn:hover {
-    background: #0073e6;
+
+.fee-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-h2, h3 {
-    color: #004f8b;
+.fee-label {
+    width: 250px;
+    margin-bottom: 0;
+    text-transform: none;
+
+.info-box {
+    background: white;
+    border: 1px solid #dcd7bb;
+    padding: 25px;
+    border-radius: 4px;
+    margin-top: 20px;
+    line-height: 1.8;
 }
 
-.note {
-    font-size: 0.8rem;
-    color: gray;
+details {
+    background: #fff;
+    border: 1px solid #dcd7bb;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+summary {
+    font-weight: 700;
+    color: #1a3a5a;
+    cursor: pointer;
+    text-transform: uppercase;
+    list-style: none;
+
+    summary::-webkit-details-marker {
+        display: none;
+    }
+
+.result-card {
+    background: #ffffff;
+    padding: 25px;
+    border: 2px solid #1a3a5a;
+    border-radius: 8px;
+    margin-top: 30px;
 }
