@@ -4,45 +4,156 @@
     ViewData["Title"] = "Кредитен калкулатор";
 }
 
-<h2>Кредитен калкулатор</h2>
+<style>
+    .page-wrapper {
+        background-color: #fcf6e5;
+        min-height: 100vh;
+        padding: 40px 20px;
+    }
 
-<form method="post">
-    <label>Размер на кредита:</label>
-    <input asp-for="Amount" type="number" step="0.01" required />
+    .main-card {
+        background: white;
+        border: 1px solid #dcd7bb;
+        padding: 30px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
 
-    <label>Срок (месеци):</label>
-    <input asp-for="Months" type="number" required />
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
 
-    <label>Лихва (%):</label>
-    <input asp-for="InterestRate" type="number" step="0.01" required />
+    .info-section {
+        max-width: 900px;
+        margin: 50px auto;
+        padding-bottom: 100px;
+    }
 
-    <label>Тип вноски:</label>
-    <select asp-for="PaymentType">
-        <option value="annuity">Анюитетни</option>
-        <option value="decreasing">Намаляващи</option>
-    </select>
+    .faq-item {
+        background: white;
+        border: 1px solid #dcd7bb;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+    }
 
-    <h3>Промоционални условия (по избор):</h3>
+    h2, h3 {
+        color: #1a3a5a;
+        font-family: 'Merriweather', serif;
+    }
+</style>
 
-    <label>Промоционален период (месеци):</label>
-    <input asp-for="PromoMonths" type="number" />
+<div class="page-wrapper">
+    <div class="main-card">
+        <h2>Кредитен калкулатор</h2>
+        <p>Пресметнете Вашите вноски бързо и лесно.</p>
+        <hr />
 
-    <label>Промоционална лихва (%):</label>
-    <input asp-for="PromoRate" type="number" step="0.01" />
+        <form method="post">
+            <div class="form-grid">
+                <div>
+                    <label>СУМА (ЛВ):</label><br />
+                    <input asp-for="Amount" type="number" class="form-control" />
+                </div>
+                <div>
+                    <label>СРОК (МЕСЕЦИ):</label><br />
+                    <input asp-for="Months" type="number" class="form-control" />
+                </div>
+                <div>
+                    <label>ЛИХВА (%):</label><br />
+                    <input asp-for="InterestRate" type="number" step="0.01" class="form-control" />
+                </div>
+                <div>
+                    <label>ТИП ПЛАЩАНЕ:</label><br />
+                    <select asp-for="PaymentType" class="form-control">
+                        <option value="annuity">Анюитетни вноски</option>
+                        <option value="linear">Линейни вноски</option>
+                    </select>
+                </div>
+            </div>
+            <div style="text-align:right;">
+                <button type="submit" style="background:#006096; color:white; border:none; padding:10px 40px; border-radius:20px; font-weight:bold;">ИЗЧИСЛИ</button>
+            </div>
+        </form>
 
-    <label>Гратисен период (месеци):</label>
-    <input asp-for="GraceMonths" type="number" />
+        @if (Model.ShowResults)
+        {
+            <div style="margin-top:30px; padding:20px; border:2px solid #1a3a5a; border-radius:8px;">
+                <h4 style="color:#1a3a5a;">Резултати:</h4>
+                <p>Месечна вноска: <strong>@Model.MonthlyPayment.ToString("F2") лв.</strong></p>
+                <p>Общо изплатено: <strong>@Model.TotalPaid.ToString("F2") лв.</strong></p>
+            </div>
+        }
+    </div>
 
-    <label>Такси (лв):</label>
-    <input asp-for="Fees" type="number" step="0.01" />
+    <div class="info-section">
+        <h3>Подробна информация за кредитите</h3>
 
-    <button type="submit">Изчисли</button>
-</form>
+        <div class="faq-item">
+            <p><strong>Защо ГПР е по-важен от лихвения процент?</strong></p>
+            <p>ГПР (Годишен процент на разходите) е реалният показател за оскъпяването на Вашия заем. Докато лихвата е само цената на ресурса, ГПР включва всички допълнителни такси за усвояване, комисионни и задължителни застраховки. Винаги сравнявайте банкови оферти чрез ГПР.</p>
+        </div>
 
-@if (Model.ShowResults)
-{
-    <h3>Резултати:</h3>
-    <p>Месечна вноска: @Model.MonthlyPayment.ToString("F2") лв.</p>
-    <p>Общо изплатена сума: @Model.TotalPaid.ToString("F2") лв.</p>
-    <p>Общо лихви и такси: @Model.TotalInterest.ToString("F2") лв.</p>
-}
+
+
+        <div class="faq-item">
+            <p><strong>Каква е разликата в типовете вноски?</strong></p>
+            <p>При анюитетните вноски плащате еднаква сума всеки месец, което е удобно за планиране. При линейните вноски главницата е постоянна, което означава, че първите вноски са много високи, но общата лихва, която ще платите за целия период, е значително по-ниска.</p>
+        </div>
+
+        <div class="faq-item">
+            <p><strong>Какво представлява гратисният период?</strong></p>
+            <p>Това е период (обикновено от 1 до 12 месеца), през който не плащате главница, а само лихвата. Често се използва при ипотечни кредити за жилища в строеж, за да се облекчи бюджетът, докато сградата получи Акт 16.</p>
+        </div>
+
+        <p style="color:#666; font-size:0.9rem; font-style:italic; margin-top:20px;">
+            * Забележка: Изчисленията са ориентировъчни. За точна оферта се обърнете към Вашата обслужваща банка.
+        </p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const form = document.querySelector("form");
+
+        const integerFields = [
+            "amount",
+            "months",
+            "promoMonths",
+            "graceMonths"
+        ];
+
+        function validateIntegers() {
+            for (const id of integerFields) {
+                const el = document.getElementById(id);
+                if (!el || el.value === "") continue;
+
+                const value = Number(el.value);
+                const min = Number(el.min ?? 0);
+
+                if (!Number.isInteger(value)) {
+                    alert("Полето трябва да е цяло число.");
+                    el.focus();
+                    return false;
+                }
+
+                if (value < min) {
+                    alert(`Стойността не може да е по-малка от ${min}.`);
+                    el.focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        form.addEventListener("submit", function (e) {
+            if (!validateIntegers()) {
+                e.preventDefault();
+            }
+        });
+
+    }); </script>

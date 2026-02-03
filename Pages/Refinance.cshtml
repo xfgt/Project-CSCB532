@@ -4,61 +4,240 @@
     ViewData["Title"] = "Калкулатор за рефинансиране на кредит";
 }
 
-<h2>Калкулатор за рефинансиране на кредит</h2>
-<p>Пресметнете дали рефинансирането на задълженията Ви е изгодно</p>
+<style>
+    /* Consistency with the Credit and Leasing page style */
+    .page-wrapper {
+        background-color: #fcf6e5;
+        min-height: 100vh;
+        padding: 40px 20px;
+    }
 
-<form method="post" class="refinance-form">
+    .main-card {
+        background: white;
+        border: 1px solid #dcd7bb;
+        padding: 30px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
 
-    <h3>Настоящ кредит</h3>
-    <div class="grid">
-        <div>
-            <label>Размер на кредита *</label>
-            <input asp-for="CurrentAmount" type="number" step="0.01" required />
-        </div>
-        <div>
-            <label>Лихва (%) *</label>
-            <input asp-for="CurrentRate" type="number" step="0.01" required />
-        </div>
-        <div>
-            <label>Срок на кредита (месеци) *</label>
-            <input asp-for="CurrentMonths" type="number" required />
-        </div>
-        <div>
-            <label>Брой на направените вноски *</label>
-            <input asp-for="PaymentsMade" type="number" required />
-        </div>
-        <div>
-            <label>Такса за предсрочно погасяване (%) *</label>
-            <input asp-for="EarlyFee" type="number" step="0.01" required />
-        </div>
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .faq-container {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .faq-item {
+        background: white;
+        border: 1px solid #dcd7bb;
+        padding: 20px;
+        flex: 1;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .info-section {
+        max-width: 1100px;
+        margin: 50px auto;
+        padding-bottom: 100px;
+    }
+
+    .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .results-table th, .results-table td {
+            border: 1px solid #eee;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .results-table th {
+            background-color: #f8f9fa;
+            color: #1a3a5a;
+        }
+
+    .success-box {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+        border-left: 5px solid #28a745;
+    }
+
+    .error-box {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+        border-left: 5px solid #dc3545;
+    }
+
+    h2, h3 {
+        color: #1a3a5a;
+        font-family: 'Merriweather', serif;
+    }
+
+    h3 {
+        margin-top: 30px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    strong {
+        color: #1a3a5a;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    input.form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #bdc3c7;
+        border-radius: 4px;
+    }
+
+    .btn-calc {
+        background: #006096;
+        color: white;
+        border: none;
+        padding: 10px 40px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="main-card">
+        <h2>Рефинансиране на кредит</h2>
+        <p>Пресметнете дали рефинансирането на задълженията Ви е изгодно.</p>
+        <hr />
+
+        <form method="post">
+            <h3>Настоящ кредит</h3>
+            <div class="grid">
+                <div>
+                    <label>Размер на кредита (лв) *</label>
+                    <input asp-for="CurrentAmount" type="number" step="0.01" class="form-control" required />
+                </div>
+                <div>
+                    <label>Лихва (%) *</label>
+                    <input asp-for="CurrentRate" type="number" step="0.01" class="form-control" required />
+                </div>
+                <div>
+                    <label>Срок (месеци) *</label>
+                    <input asp-for="CurrentMonths" type="number" class="form-control" required />
+                </div>
+                <div>
+                    <label>Направени вноски *</label>
+                    <input asp-for="PaymentsMade" type="number" class="form-control" required />
+                </div>
+                <div>
+                    <label>Такса предсрочно погасяване (%) *</label>
+                    <input asp-for="EarlyFee" type="number" step="0.01" class="form-control" required />
+                </div>
+            </div>
+
+            <h3>Нов кредит</h3>
+            <div class="grid">
+                <div>
+                    <label>Лихва на новия кредит (%) *</label>
+                    <input asp-for="NewRate" type="number" step="0.01" class="form-control" required />
+                </div>
+                <div>
+                    <label>Първоначални такси (%) *</label>
+                    <input asp-for="NewFeePercent" type="number" step="0.01" class="form-control" required />
+                </div>
+                <div>
+                    <label>Първоначални такси (лв) *</label>
+                    <input asp-for="NewFeeFixed" type="number" step="0.01" class="form-control" required />
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+                <button type="submit" class="btn-calc">ИЗЧИСЛИ СПЕСТЯВАНИЯТА</button>
+            </div>
+        </form>
+
+        @if (Model.ShowResults)
+        {
+            <h3>Сравнителен анализ</h3>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Показател</th>
+                        <th>Текущ кредит</th>
+                        <th>Нов кредит</th>
+                        <th>Разлика</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Месечна вноска</td>
+                        <td>@Model.OldPayment.ToString("F2") лв.</td>
+                        <td>@Model.NewPayment.ToString("F2") лв.</td>
+                        <td><strong>@((Model.OldPayment - Model.NewPayment).ToString("F2")) лв.</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Общо разходи (Лихви + Такси)</td>
+                        <td>@Model.OldTotalCost.ToString("F2") лв.</td>
+                        <td>@Model.NewTotalCost.ToString("F2") лв.</td>
+                        <td><strong>@Model.Saving.ToString("F2") лв.</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            @if (Model.Saving > 0)
+            {
+                <div class="success-box">
+                    <strong>Рефинансирането е изгодно!</strong>
+                    Очакваната икономия за оставащия период е @Model.Saving.ToString("F2") лв.
+                </div>
+            }
+            else
+            {
+                <div class="error-box">
+                    <strong>Рефинансирането не е препоръчително.</strong>
+                    Разходите по новия кредит и таксите за прехвърляне надвишават икономията от по-ниската лихва.
+                </div>
+            }
+        }
     </div>
 
-    <h3>Нов кредит</h3>
-    <div class="grid">
-        <div>
-            <label>Лихва *</label>
-            <input asp-for="NewRate" type="number" step="0.01" required />
+    <div class="info-section">
+        <h3>Подробна информация за рефинансирането</h3>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <p><strong>Кога си струва?</strong></p>
+                <p style="font-size: 0.9rem; color: #444;">Рефинансирането е изгодно, когато новата лихва е значително по-ниска и когато оставащият срок на кредита е достатъчно голям, за да покрие таксите за прехвърляне.</p>
+            </div>
+
+            <div class="faq-item">
+                <p><strong>Скрити разходи</strong></p>
+                <p style="font-size: 0.9rem; color: #444;">Не забравяйте таксата за предсрочно погасяване на стария кредит (обикновено 1% за кредити с фиксирана лихва) и нотариалните такси при ипотеки.</p>
+            </div>
+
+            <div class="faq-item">
+                <p><strong>Обединяване на задължения</strong></p>
+                <p style="font-size: 0.9rem; color: #444;">Рефинансирането позволява да обедините няколко малки кредита в един с по-ниска лихва, което значително облекчава месечния Ви бюджет и банкови такси.</p>
+            </div>
         </div>
-        <div>
-            <label>Първоначални такси (%) *</label>
-            <input asp-for="NewFeePercent" type="number" step="0.01" required />
-        </div>
-        <div>
-            <label>Първоначални такси (валута) *</label>
-            <input asp-for="NewFeeFixed" type="number" step="0.01" required />
-        </div>
+
+        <p style="color:#666; font-size:0.85rem; font-style:italic; margin-top:30px;">
+            * Забележка: Изчисленията включват само математическата разлика. Консултирайте се с кредитен консултант за специфични банкови условия.
+        </p>
     </div>
-
-    <button type="submit" class="btn">ИЗЧИСЛИ</button>
-    <p class="note">* задължителни полета</p>
-</form>
-
-@if (Model.ShowResults)
-{
-    <h3>Резултати</h3>
-    <p>Оставаща главница: @Model.RemainingPrincipal.ToString("F2") лв.</p>
-    <p>Разход по стария кредит: @Model.OldTotalCost.ToString("F2") лв.</p>
-    <p>Разход по новия кредит: @Model.NewTotalCost.ToString("F2") лв.</p>
-    <p><b>Разлика (спестяване): @Model.Saving.ToString("F2") лв.</b></p>
-}
-
+</div>
