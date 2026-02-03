@@ -1,0 +1,112 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+/* Основни стилове за всички калкулатори */
+
+form.calculator-form {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+
+input, select {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+button.btn {
+    margin-top: 1rem;
+    background: #005a9e;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button.btn:hover {
+    background: #0073e6;
+}
+
+h2, h3 {
+    color: #004f8b;
+}
+
+.note {
+    font-size: 0.8rem;
+    color: gray;
+}
+
+.results {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1rem;
+}
+.results th, .results td {
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    text-align: center;
+}
+.results th {
+    background: #f2f2f2;
+}
+.success {
+    background-color: #e6ffe6;
+    border: 1px solid #00b300;
+    padding: 10px;
+    margin-top: 10px;
+}
+.error {
+    background-color: #ffe6e6;
+    border: 1px solid #cc0000;
+    padding: 10px;
+    margin-top: 10px;
+}
