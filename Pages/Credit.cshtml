@@ -25,11 +25,7 @@
     </select>
 
     <label>Промо процент:</label>
-<<<<<<< HEAD
-    <input asp-for="PromoRate" id="promoRate" type="number" step="0.01" min="0"/>
-=======
     <input asp-for="PromoRate" id="promoRate" type="number" step="0.01" min="0" />
->>>>>>> main
     <div id="promoError" style="color:red; display:none;">
         Промо лихвата трябва да е по-малка от основната лихва
     </div>
@@ -38,17 +34,13 @@
     <input asp-for="PromoMonths" id="promoMonths" type="number" step="1" min="0" />
 
     <label>Гратисен период (месеци):</label>
-<<<<<<< HEAD
-    <input asp-for="GraceMonths" type="number" id="graceMonths"  step="1" min="0"/>
-=======
     <input asp-for="GraceMonths" type="number" id="graceMonths" step="1" min="0" />
->>>>>>> main
 
     <h3>Еднократни такси</h3>
 
     <div style="display:flex;align-items:center;gap:5px;">
         <label style="width:250px;">Такса кандидатстване:</label>
-        <input asp-for="ApplicationFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <input asp-for="ApplicationFee.Value" type="number" step="0.01" min="0" style="width:100px;text-align:right;" />
         <select asp-for="ApplicationFee.Type" style="width:70px;text-align:center;">
             <option value="fixed">лв</option>
             <option value="percent">%</option>
@@ -57,7 +49,7 @@
 
     <div style="display:flex;align-items:center;gap:5px;">
         <label style="width:250px;">Такса обработка:</label>
-        <input asp-for="ProcessingFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <input asp-for="ProcessingFee.Value" type="number" step="0.01" min="0" style="width:100px;text-align:right;" />
         <select asp-for="ProcessingFee.Type" style="width:70px;text-align:center;">
             <option value="fixed">лв</option>
             <option value="percent">%</option>
@@ -66,7 +58,7 @@
 
     <div style="display:flex;align-items:center;gap:5px;">
         <label style="width:250px;">Други първоначални такси:</label>
-        <input asp-for="OtherInitialFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <input asp-for="OtherInitialFee.Value" type="number" step="0.01" min="0" style="width:100px;text-align:right;" />
         <select asp-for="OtherInitialFee.Type" style="width:70px;text-align:center;">
             <option value="fixed">лв</option>
             <option value="percent">%</option>
@@ -77,7 +69,7 @@
 
     <div style="display:flex;align-items:center;gap:5px;">
         <label style="width:250px;">Годишна такса управление:</label>
-        <input asp-for="AnnualFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <input asp-for="AnnualFee.Value" type="number" step="0.01" min="0" style="width:100px;text-align:right;" />
         <select asp-for="AnnualFee.Type" style="width:70px;text-align:center;">
             <option value="fixed">лв</option>
             <option value="percent">%</option>
@@ -86,7 +78,7 @@
 
     <div style="display:flex;align-items:center;gap:5px;">
         <label style="width:250px;">Други годишни такси:</label>
-        <input asp-for="OtherAnnualFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <input asp-for="OtherAnnualFee.Value" type="number" step="0.01" min="0" style="width:100px;text-align:right;" />
         <select asp-for="OtherAnnualFee.Type" style="width:70px;text-align:center;">
             <option value="fixed">лв</option>
             <option value="percent">%</option>
@@ -97,7 +89,7 @@
 
     <div style="display:flex;align-items:center;gap:5px;">
         <label style="width:250px;">Месечна такса управление:</label>
-        <input asp-for="MonthlyManagementFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <input asp-for="MonthlyManagementFee.Value" type="number" step="0.01" min="0" style="width:100px;text-align:right;" />
         <select asp-for="MonthlyManagementFee.Type" style="width:70px;text-align:center;">
             <option value="fixed">лв</option>
             <option value="percent">%</option>
@@ -106,7 +98,7 @@
 
     <div style="display:flex;align-items:center;gap:5px;">
         <label style="width:250px;">Други месечни такси:</label>
-        <input asp-for="OtherMonthlyFee.Value" type="number" step="0.01" style="width:100px;text-align:right;" />
+        <input asp-for="OtherMonthlyFee.Value" type="number" step="0.01" min="0" style="width:100px;text-align:right;" />
         <select asp-for="OtherMonthlyFee.Type" style="width:70px;text-align:center;">
             <option value="fixed">лв</option>
             <option value="percent">%</option>
@@ -125,7 +117,6 @@
     <p>Общо лихви: @Model.TotalInterest.ToString("F2") лв.</p>
 }
 <script>
-<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", function () {
     const interest = document.getElementById("interestRate");
     const promo = document.getElementById("promoRate");
@@ -197,77 +188,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
-=======
-    document.addEventListener("DOMContentLoaded", function () {
-        const interest = document.getElementById("interestRate");
-        const promo = document.getElementById("promoRate");
-        const error = document.getElementById("promoError");
-        const form = document.querySelector("form");
-
-        function validateRates() {
-            const i = parseFloat(interest.value);
-            const p = parseFloat(promo.value);
-
-            if (!isNaN(i) && !isNaN(p) && p >= i) {
-                error.style.display = "block";
-                return false;
-            } else {
-                error.style.display = "none";
-                return true;
-            }
-        }
-
-        interest.addEventListener("input", validateRates);
-        promo.addEventListener("input", validateRates);
-
-        form.addEventListener("submit", function (e) {
-            if (!validateRates()) {
-                e.preventDefault();
-            }
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        const form = document.querySelector("form");
-
-        const integerFields = [
-            "amount",
-            "months",
-            "promoMonths",
-            "graceMonths"
-        ];
-
-        function validateIntegers() {
-            for (const id of integerFields) {
-                const el = document.getElementById(id);
-                if (!el || el.value === "") continue;
-
-                const value = Number(el.value);
-                const min = Number(el.min ?? 0);
-
-                if (!Number.isInteger(value)) {
-                    alert("Полето трябва да е цяло число.");
-                    el.focus();
-                    return false;
-                }
-
-                if (value < min) {
-                    alert(`Стойността не може да е по-малка от ${min}.`);
-                    el.focus();
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        form.addEventListener("submit", function (e) {
-            if (!validateIntegers()) {
-                e.preventDefault();
-            }
-        });
-
-    });
->>>>>>> main
 </script>

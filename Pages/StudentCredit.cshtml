@@ -11,19 +11,19 @@
     <div class="grid">
         <div>
             <label>Размер на кредита (лв.) *</label>
-            <input asp-for="Amount" type="number" step="0.01" required />
+            <input asp-for="Amount" type="number" step="0.01" min="0" required />
         </div>
         <div>
             <label>Годишна лихва (%) *</label>
-            <input asp-for="Rate" type="number" step="0.01" required />
+            <input asp-for="Rate" type="number" step="0.01" min="0" required />
         </div>
         <div>
             <label>Срок (месеци) *</label>
-            <input asp-for="Months" type="number" required />
+            <input asp-for="Months" type="number" min="0" required />
         </div>
         <div>
             <label>Гратисен период (месеци)</label>
-            <input asp-for="GraceMonths" type="number" />
+            <input asp-for="GraceMonths" type="number" min="0" />
         </div>
     </div>
 

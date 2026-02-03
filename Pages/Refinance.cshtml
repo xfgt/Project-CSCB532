@@ -13,23 +13,23 @@
     <div class="grid">
         <div>
             <label>Размер на кредита *</label>
-            <input asp-for="CurrentAmount" type="number" step="0.01" required />
+            <input asp-for="CurrentAmount" type="number" step="0.01" min="0" required />
         </div>
         <div>
             <label>Лихва (%) *</label>
-            <input asp-for="CurrentRate" type="number" step="0.01" required />
+            <input asp-for="CurrentRate" type="number" step="0.01" min="0" required />
         </div>
         <div>
             <label>Срок на кредита (месеци) *</label>
-            <input asp-for="CurrentMonths" type="number" required />
+            <input asp-for="CurrentMonths" type="number" min="0" required />
         </div>
         <div>
             <label>Брой на направените вноски *</label>
-            <input asp-for="PaymentsMade" type="number" required />
+            <input asp-for="PaymentsMade" type="number" min="0" required />
         </div>
         <div>
             <label>Такса за предсрочно погасяване (%) *</label>
-            <input asp-for="EarlyFee" type="number" step="0.01" required />
+            <input asp-for="EarlyFee" type="number" step="0.01" min="0" required />
         </div>
     </div>
 
@@ -37,15 +37,15 @@
     <div class="grid">
         <div>
             <label>Лихва *</label>
-            <input asp-for="NewRate" type="number" step="0.01" required />
+            <input asp-for="NewRate" type="number" step="0.01" min="0" required />
         </div>
         <div>
             <label>Първоначални такси (%) *</label>
-            <input asp-for="NewFeePercent" type="number" step="0.01" required />
+            <input asp-for="NewFeePercent" type="number" step="0.01" min="0" required />
         </div>
         <div>
             <label>Първоначални такси (валута) *</label>
-            <input asp-for="NewFeeFixed" type="number" step="0.01" required />
+            <input asp-for="NewFeeFixed" type="number" step="0.01" min="0" required />
         </div>
     </div>
 
